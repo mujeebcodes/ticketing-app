@@ -33,6 +33,7 @@ const Tickets = async ({ searchParams }: { searchParams: SearchParams }) => {
   }
 
   const ticketCount = await prisma.ticket.count({ where });
+
   const tickets = await prisma.ticket.findMany({
     where,
     orderBy: { [orderBy]: "desc" },

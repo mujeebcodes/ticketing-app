@@ -22,6 +22,8 @@ model Ticket {
   priority Priority @default(MEDIUM)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  assignedToUserId Int?
+  assignedToUser User? @relation(fields: [assignedToUserId], references: [id])
 }
 
 enum Status {
@@ -34,4 +36,19 @@ enum Priority {
   LOW
   MEDIUM
   HIGH
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  username String @unique
+  password String
+  role Role @default(USER)
+  assignedTickets Ticket[]
+}
+
+enum Role {
+  ADMIN
+  TECH
+  USER
 }
