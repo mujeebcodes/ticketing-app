@@ -1,12 +1,23 @@
 import prisma from "@/prisma/db";
 import { ticketSchema, ticketPatchSchema } from "@/validationSchemas/ticket";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import options from "../../auth/[...nextauth]/options";
 
 interface Props {
   params: { id: string };
 }
 
 export const PATCH = async (request: NextRequest, { params }: Props) => {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+  }
+
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Not an Admin" }, { status: 401 });
+  }
   const body = await request.json();
   const validation = ticketPatchSchema.safeParse(body);
 
@@ -37,6 +48,16 @@ export const PATCH = async (request: NextRequest, { params }: Props) => {
 };
 
 export const DELETE = async (request: NextRequest, { params }: Props) => {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+  }
+
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Not an Admin" }, { status: 401 });
+  }
+
   const ticket = await prisma.ticket.findUnique({
     where: { id: parseInt(params.id) },
   });

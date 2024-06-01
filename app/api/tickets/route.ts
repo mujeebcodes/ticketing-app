@@ -1,8 +1,16 @@
 import prisma from "@/prisma/db";
 import { ticketSchema } from "@/validationSchemas/ticket";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import options from "../auth/[...nextauth]/options";
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+  }
+
   const body = await request.json();
   const validation = ticketSchema.safeParse(body);
 
