@@ -10,7 +10,7 @@ interface Props {
 }
 const EditTicket = async ({ params }: Props) => {
   const ticket = await prisma.ticket.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: params.id },
   });
 
   if (!ticket) {

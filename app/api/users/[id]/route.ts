@@ -27,7 +27,7 @@ export const PATCH = async (request: NextRequest, { params }: Props) => {
   }
 
   const user = await prisma.user.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: params.id },
   });
 
   if (!user) {

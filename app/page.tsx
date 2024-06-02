@@ -5,7 +5,7 @@ import prisma from "@/prisma/db";
 const Dashboard = async () => {
   const tickets = await prisma.ticket.findMany({
     where: { NOT: [{ status: "CLOSED" }] },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { updatedAt: "asc" },
     skip: 0,
     take: 5,
     include: { assignedToUser: true },

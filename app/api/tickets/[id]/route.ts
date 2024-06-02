@@ -26,7 +26,7 @@ export const PATCH = async (request: NextRequest, { params }: Props) => {
   }
 
   const ticket = await prisma.ticket.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: params.id },
   });
 
   if (!ticket) {
@@ -34,7 +34,7 @@ export const PATCH = async (request: NextRequest, { params }: Props) => {
   }
 
   if (body?.assignedToUserId) {
-    body.assignedToUserId = parseInt(body.assignedToUserId);
+    body.assignedToUserId = body.assignedToUserId;
   }
 
   const updatedTicket = await prisma.ticket.update({
@@ -59,7 +59,7 @@ export const DELETE = async (request: NextRequest, { params }: Props) => {
   }
 
   const ticket = await prisma.ticket.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: params.id },
   });
 
   if (!ticket) {

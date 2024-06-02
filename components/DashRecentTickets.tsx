@@ -24,7 +24,7 @@ const DashRecentTickets = ({ tickets }: Props) => {
             ? tickets.map((ticket) => (
                 <div key={ticket.id} className="flex items-center">
                   <TicketStatusBadge status={ticket.status} />
-                  <div className="ml-4 spa-y">
+                  <div className="ml-4 space-y-2">
                     <Link href={`/tickets/${ticket.id}`}>
                       <p>{ticket.title}</p>
                       <p>{ticket.assignedToUser?.name || "Unassigned"}</p>
