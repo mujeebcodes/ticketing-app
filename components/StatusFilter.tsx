@@ -21,17 +21,16 @@ const StatusFilter = (props: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const onChange = (status) => {
-    const params = new URLSearchParams();
-    if (status) params.append("status", status);
-
-    const query = params.size ? `?${params.toString()}` : "0";
-    router.push(`/tickets${query}`);
-  };
   return (
     <Select
       defaultValue={searchParams.get("status") || ""}
-      onValueChange={onChange}
+      onValueChange={(status) => {
+        const params = new URLSearchParams();
+        if (status) params.append("status", status);
+
+        const query = params.size ? `?${params.toString()}` : "0";
+        router.push(`/tickets${query}`);
+      }}
     >
       <SelectTrigger className="w-[200px]">
         <SelectValue placeholder="Filter by Status ..." />
