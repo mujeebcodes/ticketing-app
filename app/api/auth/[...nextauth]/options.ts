@@ -2,6 +2,7 @@ import prisma from "@/prisma/db";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { User } from "@prisma/client";
 
 const options: NextAuthOptions = {
   providers: [
@@ -16,7 +17,7 @@ const options: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (credentials) => {
+      authorize: async (credentials): Promise<any> => {
         const user = await prisma.user.findUnique({
           where: { username: credentials!.username },
         });
